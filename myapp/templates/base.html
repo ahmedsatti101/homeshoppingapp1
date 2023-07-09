@@ -1,0 +1,27 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Shopping app</title>
+    <link rel="stylesheet" href="{% static 'myapp/style.css' %}">
+</head>
+<body>
+    <h1>Shopping app</h1>
+    <!--align nav to center-->
+    <style>
+        nav {
+            text-align: center;
+        }
+    </style>
+    <nav>
+        <a href="{% url 'myapp:index' %}">Home</a>
+        <a href="{% url 'myapp:products' %}">Products</a>
+        <a href="{% url 'myapp:basket' %}">Basket</a>
+        <a href="{% url 'myapp:form' %}">Sign in</a>
+    </nav>
+    {% block content %}
+
+    {% endblock %}
+</body>
+</html>

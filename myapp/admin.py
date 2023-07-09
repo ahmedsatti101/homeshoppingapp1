@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import product_collection, Product
+from .models import Product, Customer
 
-admin.site.register(product_collection)
 admin.site.register(Product)
+admin.site.register(Customer)
