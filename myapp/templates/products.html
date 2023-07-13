@@ -1,14 +1,36 @@
 {%extends 'base.html' %}
 <br >
 {% block content %}
-<ul>
-{% for product in products %}
-<li>
-    <p>{{product.title}}</p>
-    <p>{{product.price}}</p>
-    <p>{{product.inventory_status}}</p>
-    <p>{{product.type}}</p>
-</li>
-{% endfor %}
-</ul>
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Products</title>
+    <link rel="stylesheet" href="{% static 'css/products.css' %}">
+</head>
+<body>
+    <br>
+    <table>
+        <thead>
+            <tr>
+                <th>Product</th>
+                <th>Price</th>
+                <th>Inventory</th>
+                <th>Type</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for product in products %}
+                <tr>
+                    <td><p>{{product.title}}</p></td>
+                    <td><p>{{product.price}}</p></td>
+                    <td><p>{{product.inventory_status}}</p></td>
+                    <td><p>{{product.type|capfirst}}</p></td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>
 {% endblock %}
