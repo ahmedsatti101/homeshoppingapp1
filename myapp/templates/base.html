@@ -7,7 +7,6 @@
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
 </head>
 <body>
-    <h1>Shopping app</h1>
     <!--align nav to center-->
     <style>
         nav {
@@ -20,6 +19,14 @@
         <a href="{% url 'myapp:basket' %}">Basket</a>
         <a href="{% url 'myapp:form' %}">Sign in</a>
     </nav>
+    <ul>
+        {% if user.is_authenticated %}
+        <li>User: {{ user.get_username }}</li>
+        <li><a href="{% url 'logout' %}?next={{ logged_out.html }}">Logout</a></li>
+        {% else %}
+        <li><a href="{% url 'login' %}">Login</a></li>
+        {% endif %}
+  </ul>
     {% block content %}
 
     {% endblock %}

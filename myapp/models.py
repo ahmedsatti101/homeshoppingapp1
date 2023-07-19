@@ -3,6 +3,7 @@ from django.core.validators import RegexValidator
 from djmoney.models.fields import MoneyField
 from decimal import Decimal
 from djmoney.models.validators import MaxMoneyValidator, MinMoneyValidator
+import uuid
 
 PRODUCT_TYPES = (
     ('fruit', 'Fruit'),
@@ -30,6 +31,7 @@ class Product(models.Model):
     price = MoneyField(max_digits=5, decimal_places=2, default=0, default_currency='GBP', validators=[MinMoneyValidator(Decimal('0.00')), MaxMoneyValidator(Decimal('999.99'))])
     inventory_status = models.CharField(max_length=100, choices=INVENTORY_STATUS)
     type = models.CharField(max_length=100, choices=PRODUCT_TYPES)
+    picture = models.ImageField(upload_to='img', default="")
     
     def __str__(self):
         return self.title
@@ -55,5 +57,16 @@ class Customer(models.Model):
         return f'{self.first_name} {self.last_name}'
     
 class Basket(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     customer = models.ForeignKey(Customer, on_delete=models.CASCADE, default="")
-    product = models.ForeignKey(Product, on_delete=models.CASCADE, default="")
+    
+    def __str__(self):
+        return str(self.id)
+    
+class BasketItem(models.Model):
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, default="", related_name="items")
+    basket = models.ForeignKey(Basket, on_delete=models.CASCADE, default="", related_name="basket_items")
+    quantity = models.IntegerField(default=0)
+    
+    def __str__(self):
+        return self.product.title
