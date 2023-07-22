@@ -1,5 +1,35 @@
 {%extends 'base.html' %}
 <br >
 {% block content %}
-<p>Basket page.</p>
+{% load static %}
+{% load custom_filters %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Basket</title>
+    <link rel="stylesheet" href="{% static 'css/basket.css' %}">
+</head>
+<body>
+    <ul>
+        {% for product in basket %}
+            <li>{{ product.title }} - {{ product.price }}
+                <span>
+                    <form method="POST" action="{% url 'myapp:increment_basket_item' %}{{post.product.id}}">
+                        {% csrf_token %}
+                        <button type="submit">+</button>
+                    </form>
+                    <form method="POST" action="{% url 'myapp:decrement_basket_item' %}{{post.product.id}}">
+                        {% csrf_token %}
+                        <button type="submit">-</button>
+                    </form>
+                    <form method="POST" action="{% url 'myapp:remove_from_basket' %}{{post.product.id}}">
+                        {% csrf_token %}
+                        <input type="submit" value="Remove">
+                    </form>
+                </span>
+            </li>
+        {% endfor %}
+    </ul>
+</body>
 {% endblock %}
