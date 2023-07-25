@@ -1,6 +1,8 @@
 from django.test import TestCase, Client
+from django.contrib.auth.models import User
 from django.urls import reverse
 from .models import Product, Customer, Basket
+from .forms import SignUpForm
         
 class ProductTest(TestCase):
     def test_field_value(self):
@@ -85,4 +87,39 @@ class template_exists(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'index.html')
         self.assertContains(response, 'Index page.')
+
+class user_login_form(TestCase):
+    def test_login_form(self):
+        url = reverse('myapp:login')
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'registration/login.html')
+        self.assertContains(response, '<input type="submit" value="Login">')
+        self.assertContains(response, '<a href="{0}">Lost password?</a>'.format(reverse('password_reset')))
+        self.assertContains(response, 'Don\'t have an account?')
+        self.assertContains(response, '<a href="{0}">Create one</a>'.format(reverse('myapp:form')))
         
+    def test_password_hashing(self):
+        username = 'testuser'
+        password = 'testpassword'
+        user = User.objects.create_user(username=username, password=password)
+        user_from_db = User.objects.get(username=username)
+        self.assertNotEqual(user.password, password)
+        self.assertTrue(user_from_db.check_password(password))
+        self.client.login(username=username, password=password)
+        self.assertTrue(self.client.session['_auth_user_id'])
+        
+
+class user_form_redirect(TestCase):
+    def setUp(self):
+        self.client = Client()
+        
+    def test_lost_password_redirect(self):
+        self.client.login(username='testuser', password='testpassword')
+        response = self.client.get(reverse('password_reset'))
+        self.assertEqual(response.status_code, 200)
+        
+    def test_create_account_redirect(self):
+        url = reverse('myapp:form')
+        response = self.client.get(url)
+        self.assertRedirects(response, '/accounts/login/?next=/myapp/form/')

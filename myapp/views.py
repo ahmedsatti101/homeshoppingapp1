@@ -1,7 +1,6 @@
-from django.shortcuts import render, redirect, get_object_or_404
-from django.http import HttpResponse
-from django.contrib.auth.views import LoginView
-from .forms import CustomerForm
+from django.shortcuts import render, redirect
+from django.contrib.auth.forms import UserCreationForm
+from .forms import SignUpForm
 from .models import Product, Basket
 from django.contrib.auth.decorators import login_required
 
@@ -12,14 +11,19 @@ def index(request):
 
 @login_required
 def form(request):
-    form = CustomerForm()
+    form = SignUpForm()
     if request.method == 'POST':
-        form = CustomerForm(request.POST)
+        form = SignUpForm(request.POST)
     if form.is_valid():
         form.save()
+        return redirect('login')
         
     context = {'form': form}
     return render(request, 'customer_form.html', context)
+
+def loginPage(request):
+    context = {}
+    return render(request, 'registration/login.html', context)
 
 def products(request):
     products = Product.objects.all()

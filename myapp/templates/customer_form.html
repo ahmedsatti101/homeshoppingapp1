@@ -3,9 +3,19 @@
 <h3>Login</h3>
 <hr>
 
-<form action="" method="post">
+<form action="" method="POST">
     {% csrf_token %}
-    {{form.as_p}}
+    {% for field in form %}
+        <br >
+        {{ field.label }}
+        <br >
+        {{ field }}
+        <br >
+    {% endfor %}
+    <br >
     <input type="submit">
+    <button type="clear", value="clear", name="clear">Clear</button>
 </form>
+
+<p>Already have an account? <a href="{% url 'login' %}">Login here</a></p>
 {% endblock %}
