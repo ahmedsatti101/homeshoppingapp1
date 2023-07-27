@@ -4,6 +4,7 @@ from djmoney.models.fields import MoneyField
 from decimal import Decimal
 from djmoney.models.validators import MaxMoneyValidator, MinMoneyValidator
 import uuid
+from django.contrib.auth.models import Group
 
 PRODUCT_TYPES = (
     ('fruit', 'Fruit'),
@@ -45,7 +46,7 @@ class Product(models.Model):
 class Customer(models.Model):
     first_name = models.CharField( max_length=100, default="")
     last_name = models.CharField( max_length=100, default="")
-    email = models.EmailField(max_length=100, default="")
+    email = models.EmailField(max_length=100, default="", unique=True)
     phone_number = models.CharField(max_length=20, default="", validators=[RegexValidator(r'^\+?1?\d{9,15}$')])
     address_line_1 = models.CharField(max_length=100, default="")
     address_line_2 = models.CharField(max_length=100, default="")

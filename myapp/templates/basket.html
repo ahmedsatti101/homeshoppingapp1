@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="{% static 'css/basket.css' %}">
 </head>
 <body>
+    <p>Basket page.</p>
     <ul>
         {% for product in basket %}
             <li>{{ product.title }} - {{ product.price }}

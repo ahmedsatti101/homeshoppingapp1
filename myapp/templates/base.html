@@ -19,14 +19,15 @@
         <a href="{% url 'myapp:basket' %}">Basket</a>
         <a href="{% url 'myapp:form' %}">Sign in</a>
     </nav>
-    <ul>
+    <br >
+    <div align="right">
         {% if user.is_authenticated %}
-        <li>User: {{ user.get_username }}</li>
-        <li><a href="{% url 'logout' %}?next={{ logged_out.html }}">Logout</a></li>
+        <a href="{% url 'logout' %}?next={{ logged_out.html }}">Logout</a>
         {% else %}
-        <li><a href="{% url 'login' %}">Login</a></li>
+        <a href="{% url 'login' %}?next={{ login.html }}">Login</a>
         {% endif %}
-  </ul>
+    </div>
+    <br >
     {% block content %}
 
     {% endblock %}
