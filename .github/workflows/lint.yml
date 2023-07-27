@@ -3,8 +3,9 @@ name: Django CI/CD Workflow
 on: [push, pull_request]
 
 jobs:
-  runs-on: ubuntu-latest
-  steps:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
       - name: Checkout code
         uses: actions/checkout@v2
       - name: Cache dependency
@@ -22,9 +23,9 @@ jobs:
         run: python --version
       - name: Install requirements
         run: pip install -r requirements.txt
-      -name: Check syntax
+      - name: Check syntax
         run: pycodestyle --statistics .
-      -name: Run migrations
+      - name: Run migrations
         run: python manage.py migrate
-      -name: Run tests
+      - name: Run tests
         run: python manage.py test
