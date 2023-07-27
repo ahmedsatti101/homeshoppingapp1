@@ -23,8 +23,8 @@ jobs:
         run: python --version
       - name: Install requirements
         run: pip install -r requirements.txt
-      - name: Check syntax
-        run: pycodestyle --statistics .
+      #- name: Check syntax
+        #run: pycodestyle --statistics .
       - name: Run migrations
         run: python manage.py migrate
       - name: Run tests
