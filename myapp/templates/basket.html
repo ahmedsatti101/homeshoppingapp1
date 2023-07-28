@@ -11,26 +11,16 @@
     <link rel="stylesheet" href="{% static 'css/basket.css' %}">
 </head>
 <body>
-    <p>Basket page.</p>
+    <h2>Your basket</h2>
     <ul>
         {% for product in basket %}
-            <li>{{ product.title }} - {{ product.price }}
-                <span>
-                    <form method="POST" action="{% url 'myapp:increment_basket_item' %}{{post.product.id}}">
-                        {% csrf_token %}
-                        <button type="submit">+</button>
-                    </form>
-                    <form method="POST" action="{% url 'myapp:decrement_basket_item' %}{{post.product.id}}">
-                        {% csrf_token %}
-                        <button type="submit">-</button>
-                    </form>
-                    <form method="POST" action="{% url 'myapp:remove_from_basket' %}{{post.product.id}}">
-                        {% csrf_token %}
-                        <input type="submit" value="Remove">
-                    </form>
-                </span>
-            </li>
+            <li>{{ product.title }} - {{ product.price }}</li>
         {% endfor %}
     </ul>
+    <form method="post" action="{% url 'myapp:clear_basket' %}">
+        {% csrf_token %}
+        <input type="hidden" name="clear_basket" value="True">
+        <button type="submit">Clear Basket</button>
+    </form>
 </body>
 {% endblock %}

@@ -1,10 +1,9 @@
 from django.db import models
-from django.core.validators import RegexValidator
+from django.contrib.auth.models import User
 from djmoney.models.fields import MoneyField
 from decimal import Decimal
 from djmoney.models.validators import MaxMoneyValidator, MinMoneyValidator
 import uuid
-from django.contrib.auth.models import Group
 
 PRODUCT_TYPES = (
     ('fruit', 'Fruit'),
@@ -43,23 +42,9 @@ class Product(models.Model):
     def get_status_to_display(self):
         return INVENTORY_STATUS(self.inventory_status)
     
-class Customer(models.Model):
-    first_name = models.CharField( max_length=100, default="")
-    last_name = models.CharField( max_length=100, default="")
-    email = models.EmailField(max_length=100, default="", unique=True)
-    phone_number = models.CharField(max_length=20, default="", validators=[RegexValidator(r'^\+?1?\d{9,15}$')])
-    address_line_1 = models.CharField(max_length=100, default="")
-    address_line_2 = models.CharField(max_length=100, default="")
-    city = models.CharField(max_length=100, default="")
-    postcode_validator = RegexValidator(regex=r'^[A-Z]{1,2}\d{1,2} ?\d[A-Z]{2}$', message="Enter a valid postcode in the format 'M20 2YH' or 'WX45 3GH'")
-    postcode = models.CharField(max_length=8, default="", validators=[postcode_validator])
-    
-    def __str__(self):
-        return f'{self.first_name} {self.last_name}'
-    
 class Basket(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    customer = models.ForeignKey(Customer, on_delete=models.CASCADE, default="")
+    user = models.ForeignKey(User, on_delete=models.CASCADE, default="")
     
     def __str__(self):
         return str(self.id)

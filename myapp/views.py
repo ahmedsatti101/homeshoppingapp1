@@ -1,13 +1,12 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.forms import UserCreationForm
 from .forms import SignUpForm
-from .models import Product, Basket
+from .models import Product, Basket, BasketItem
 from django.contrib.auth.decorators import login_required
+from django.http import JsonResponse
 
 def index(request):
-    num_basket = Basket.objects.all().count()
-    context = {'basket': basket}
-    return render (request, 'index.html', context=context)
+    return render (request, 'index.html')
 
 @login_required
 def form(request):
@@ -19,7 +18,7 @@ def form(request):
         return redirect('login')
         
     context = {'form': form}
-    return render(request, 'customer_form.html', context)
+    return render(request, 'customer_form.html', context=context)
 
 def loginPage(request):
     context = {}
@@ -32,9 +31,15 @@ def products(request):
         basket.append(request.POST['product_id'])
         request.session['basket'] = basket
         return redirect('myapp:products')
+    num_basket_items = len(request.session.get('basket', []))
+    context = {'num_basket_items': num_basket_items}
     return render(request, 'products.html', {'products': products})
 
 def basket(request):
+    if request.method == 'POST':
+        request.session['basket'] = []
+        return redirect('myapp:basket')
+    
     basket = []
     product_ids = request.session.get('basket', [])
     for product_id in product_ids:
@@ -43,26 +48,22 @@ def basket(request):
     return render(request, 'basket.html', {'basket': basket})
 
 def add_to_basket(request):
-    basket = request.session.get('basket', [])
-    basket.append(request.POST['product_id'])
-    request.session['basket'] = basket
+    if request.method == 'POST':
+        product_id = request.POST['product_id']
+        product = get_object_or_404(Product, pk=product_id)
+        basket = request.session.get('basket', [])
+        basket.append(request.POST['product_id'])
+        request.session['basket'] = basket
+    
+    if request.user.is_authenticated:
+        basket, created = Basket.objects.get_or_create(user=request.user)
+        basketItem, created = BasketItem.objects.get_or_create(basket=basket, product=product)
+        basketItem.quantity += 1
+        basketItem.save()
+        
     return redirect('myapp:basket')
-
-def increment_basket_item(request, product_id):
-    basket = request.session.get('basket', [])
-    basket[product_id] = basket.get(product_id, 0) + 1
-    request.session['basket'] = basket
-    return redirect('myapp:basket')
-
-def decrement_basket_item(request):
-    basket = request.session.get('basket', [])
-    if request.POST['product_id'] in basket:
-        basket.remove(request.POST['product_id'])
-    request.session['basket'] = basket
-    return redirect('myapp:basket')
-
-def remove_from_basket(request):
-    basket = request.session.get('basket', [])
-    basket = [item for item in basket if item != request.POST['product_id']]
-    request.session['basket'] = basket
+        
+ 
+def clear_basket(request):
+    request.session['basket'] = []
     return redirect('myapp:basket')

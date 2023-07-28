@@ -1,7 +1,7 @@
 from django.test import TestCase, Client
 from django.contrib.auth.models import User
 from django.urls import reverse
-from .models import Product, Customer, Basket
+from .models import Product, Basket
 from .forms import SignUpForm
         
 class ProductTest(TestCase):
@@ -32,18 +32,6 @@ class ProductTest(TestCase):
         acutal_value = my_model.type
         self.assertEqual(expected_value, acutal_value)
         
-    def test_phone_number_format(self):
-        #test that the phone number is in the correct format (e.g. +447123456789)
-        expected_value = '+447123456789'
-        my_model = Customer(phone_number=expected_value)
-        actual_value = my_model.phone_number
-        self.assertEqual(expected_value, actual_value)
-        
-    def test_postcode_format(self):
-        expected_value = 'M20 2YH'
-        my_model = Customer(postcode=expected_value)
-        actual_value = my_model.postcode
-        self.assertEqual(expected_value, actual_value)
         
 class navgation_bar_exists(TestCase):
     def setUp(self):
@@ -69,7 +57,6 @@ class template_exists(TestCase):
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'basket.html')
-        self.assertContains(response, 'Basket page.')
         
     def test_products_template(self):
         url = reverse('myapp:products')
@@ -86,7 +73,7 @@ class template_exists(TestCase):
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'index.html')
-        self.assertContains(response, 'Index page.')
+        self.assertContains(response, 'Home page.')
 
 class user_login_form(TestCase):
     def test_login_form(self):

@@ -10,11 +10,3 @@ class ProductAdmin(admin.ModelAdmin):
     search_fields = ('title', 'price', 'inventory_status', 'type')
     
 admin.site.register(Product, ProductAdmin)
-
-
-class CustomerAdmin(admin.ModelAdmin):
-    list_display = ('last_name', 'first_name', 'phone_number', 'city', 'postcode')
-    list_filter = ('last_name', 'city', 'postcode')
-    search_fields = ('last_name', 'phone_number', 'city', 'postcode')
-    
-admin.site.register(Customer, CustomerAdmin)
