@@ -11,7 +11,10 @@
     <link rel="stylesheet" href="{% static 'css/products.css' %}">
 </head>
 <body>
+    <h2>Products</h2>
     <br>
+    <div class="container">
+        
     <table>
         <thead>
             <tr>
@@ -24,6 +27,7 @@
         </thead>
         <tbody>
             {% for product in products %}
+            <div class="productContainer">
                 <tr>
                     <td><p>{{product.title}}</p></td>
                     <td><p>{{product.price}}</p></td>
@@ -36,9 +40,11 @@
                             <input type="submit" value="Add to basket">
                         </form>
                 </tr>
+            </div>
             {% endfor %}
         </tbody>
     </table>
+    </div>
 </body>
 </html>
 {% endblock %}
