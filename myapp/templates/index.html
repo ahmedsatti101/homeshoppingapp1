@@ -9,5 +9,56 @@
     <meta charset="UTF-8">
     <title>Home</title>
 </head>
-<p>Home page.</p>
+<body>
+    <style>
+        .card {
+            width: 300px;
+            height: 500px;
+        }
+
+    </style>
+    <div class="row mb-0 mr-0">
+        <div class="col">
+          <div class="card">
+            <img src="{% static 'download.jpg' %}" class="card-img-top" width="800" height="800" alt="Vase">
+            <div class="card-body">
+              <h5 class="card-title">Vase</h5>
+              <p class="card-text">Description</p>
+              <a class="btn btn-secondary" href="{% url 'myapp:products' %}">View</a>
+            </div>
+          </div>
+        </div>
+        <div class="col">
+          <div class="card">
+            <img src="{% static 'pringles1.jpg' %}" class="card-img-top" width="200" height="400" alt="Pringles">
+            <div class="card-body">
+              <h5 class="card-title">Pringles</h5>
+              <p class="card-text">Description</p>
+              <a class="btn btn-secondary" href="{% url 'myapp:products' %}">View</a>
+            </div>
+          </div>
+        </div>
+        <div class="col">
+          <div class="card">
+            <img src="{% static 'cadbury.jpg' %}" class="card-img-top" width="800" height="800" alt="Cadbury">
+            <div class="card-body">
+              <h5 class="card-title">Cadbury</h5>
+              <p class="card-text">Description</p>
+              <a class="btn btn-secondary" href="{% url 'myapp:products' %}">View</a>
+            </div>
+          </div>
+        </div>
+        <div class="col">
+          <div class="card">
+            <img src="{% static 'milk.jpg' %}" class="card-img-top" width="200" height="400" alt="Milk">
+            <div class="card-body">
+              <h5 class="card-title">Milk</h5>
+              <p class="card-text">Description</p>
+              <a class="btn btn-secondary" href="{% url 'myapp:products' %}">View</a>
+            </div>
+          </div>
+        </div>
+      </div>
+</body>
+</html>
 {% endblock %}

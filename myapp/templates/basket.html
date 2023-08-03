@@ -8,7 +8,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Basket</title>
-    <link rel="stylesheet" href="{% static 'css/basket.css' %}">
+    
 </head>
 <body>
     <h2>Your basket</h2>
@@ -20,7 +20,7 @@
     <form method="post" action="{% url 'myapp:clear_basket' %}">
         {% csrf_token %}
         <input type="hidden" name="clear_basket" value="True">
-        <button type="submit">Clear Basket</button>
+        <button  class="btn btn-secondary" type="submit">Clear Basket</button>
     </form>
 </body>
 {% endblock %}

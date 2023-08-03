@@ -55,11 +55,11 @@ def add_to_basket(request):
         basket.append(request.POST['product_id'])
         request.session['basket'] = basket
     
-    if request.user.is_authenticated:
-        basket, created = Basket.objects.get_or_create(user=request.user)
-        basketItem, created = BasketItem.objects.get_or_create(basket=basket, product=product)
-        basketItem.quantity += 1
-        basketItem.save()
+        if request.user.is_authenticated:
+            basket, created = Basket.objects.get_or_create(user=request.user)
+            basketItem, created = BasketItem.objects.get_or_create(basket=basket, product=product)
+            basketItem.quantity += 1
+            basketItem.save()
         
     return redirect('myapp:basket')
         

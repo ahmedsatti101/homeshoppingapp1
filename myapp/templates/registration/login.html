@@ -27,8 +27,9 @@
         <td>{{ form.password }}</td>
       </tr>
     </table>
-    <input type="submit" value="Login">
-    <input type="hidden" name="next" value="{{ next }}">
+    <br >
+    <input class="btn btn-secondary" type="submit" value="Login">
+    <input class="btn btn-secondary" type="hidden" name="next" value="{{ next }}">
   </form>
 
   <p><a href="{% url 'password_reset' %}">Lost password?</a></p>

@@ -36,8 +36,8 @@
                     <td>
                         <form method="POST" action="{% url 'myapp:add_to_basket' %}">
                             {% csrf_token %}
-                            <input type="hidden" name="product_id" value="{{product.id}}">
-                            <input type="submit" value="Add to basket">
+                            <input class="btn btn-secondary" type="hidden" name="product_id" value="{{product.id}}">
+                            <input class="btn btn-secondary" type="submit" value="Add to basket">
                         </form>
                 </tr>
             </div>

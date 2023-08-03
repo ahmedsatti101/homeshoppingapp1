@@ -1,46 +1,16 @@
-function getCookie(name) {
-    let cookieValue = null;
-    if (document.cookie && document.cookie !== '') {
-        const cookies = document.cookie.split(';');
-        for (let i = 0; i < cookies.length; i++) {
-            const cookie = cookies[i].trim();
-            // Does this cookie string begin with the name we want?
-            if (cookie.substring(0, name.length + 1) === (name + '=')) {
-                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                break;
-            }
-        }
+const SignUpForm = document.getElementById('SignUpForm');
+const submitButton = document.getElementById('submitButton');
+
+function checkFormFilled() {
+    const username = SignUpForm.username.value.trim();
+    const emailAddress = SignUpForm.emailAddress.value.trim();
+    const password1 = SignUpForm.password1.value.trim();
+    const password2 = SignUpForm.password2.value.trim();
+
+    if (username === '' || emailAddress === '' || password1 === '' || password2 === '') {
+        submitButton.disabled = true;
+    } else {
+        submitButton.disabled = false;
     }
-    return cookieValue;
 }
-const csrftoken = getCookie('csrftoken');
 
-
-let btns = document.querySelectorAll(".productContainer button")
-
-btns.forEach(btn=>{
-    btn.addEventListener("click", addToBasket)
-})
-
-function addToBasket(e){
-    let product_id = e.target.value
-    let url  = "/add-to-basket"
-
-    let data = {id: product_id}
-
-    fetch(url, {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-            body: JSON.stringify(data),
-            "X-CSRFToken": csrftoken
-        }
-        .then(res=>res.json())
-        .then(data=>{
-            console.log(data)
-        })
-    })
-    .catch(err=>{
-        console.log(err)
-    })
-}
