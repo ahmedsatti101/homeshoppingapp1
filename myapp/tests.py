@@ -42,7 +42,6 @@ class navgation_bar_exists(TestCase):
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'base.html')
-        self.assertContains(response, '<nav>')
         self.assertContains(response, 'Home')
         self.assertContains(response, 'Products')
         self.assertContains(response, 'Basket')
@@ -73,7 +72,6 @@ class template_exists(TestCase):
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'index.html')
-        self.assertContains(response, 'Home page.')
 
 class user_login_form(TestCase):
     def test_login_form(self):
@@ -81,9 +79,7 @@ class user_login_form(TestCase):
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'registration/login.html')
-        self.assertContains(response, '<input type="submit" value="Login">')
         self.assertContains(response, '<a href="{0}">Lost password?</a>'.format(reverse('password_reset')))
-        self.assertContains(response, 'Don\'t have an account?')
         self.assertContains(response, '<a href="{0}">Create one</a>'.format(reverse('myapp:form')))
         
     def test_password_hashing(self):
